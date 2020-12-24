@@ -1,0 +1,21 @@
+dependencies:
+- name: redis-ha
+  repository: https://charts.helm.sh/stable
+  version: 3.11.4
+- name: postgresql
+  repository: https://charts.helm.sh/stable
+  version: 8.6.4
+- name: postgresql-backup
+  repository: https://storage.googleapis.com/t3n-helm-charts
+  version: 0.0.1
+- name: elasticsearch
+  repository: https://helm.elastic.co
+  version: 7.10.1
+- name: logstash
+  repository: https://helm.elastic.co
+  version: 7.10.1
+- name: kibana
+  repository: https://helm.elastic.co
+  version: 7.10.1
+digest: sha256:1fe6ecf4f4708f5397c0a9197dbae481df243073974bff159af0804f8590afaa
+generated: "2020-12-23T16:42:58.63642316+02:00"

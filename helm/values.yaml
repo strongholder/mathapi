@@ -1,0 +1,186 @@
+global:
+  deployment: blue
+  pipeline: helm
+
+replicaCount: 1
+revisionHistoryLimit: 0
+
+## PodDisruptionBudget
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+# maxUnavailable: 1
+
+image:
+  repository: localhost:32000/mathapi
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  annotations: {}
+  labels: {}
+  name: http
+  externalPort: 80
+  internalPort: 5000
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - mathapi.danielpopov.com
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## Probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+readinessProbe:
+  path: /health_check
+  # port: 9000
+  initialDelaySeconds: 0
+  timeoutSeconds: 1
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+livenessProbe:
+  path: /health_check
+  # port: 9000
+  initialDelaySeconds: 0
+  timeoutSeconds: 1
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+## Configure resource requests and limits
+## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+podAnnotations: {}
+
+## Override docker entrypoint
+command: []
+
+## Additional command line arguments to pass to images binary
+extraArgs: {}
+
+## Additional environmental variables to pass to container
+extraEnvs: {}
+
+## Additional volumeMounts to the main container.
+extraVolumeMounts: []
+  # - name: mount
+  #   mountPath: /mnt
+
+## Additional volumes to the pod.
+extraVolumes: []
+  # - name: volume
+  #   emptyDir: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+serviceAccount:
+  create: false
+  name: ""
+
+secretFiles: {}
+  # gcloud:
+  #   mountPath: /etc/gcloud/key.json
+  #   subPath: key.json
+  #   files:
+  #     json.key: base64encSecret
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 11
+  cpuPercentage: 75
+
+redis:
+  enabled: true
+
+postgresql:
+  enabled: true
+
+kibana:
+  enabled: true
+  service:
+    type: ClusterIP
+    loadBalancerIP: ""
+    port: 5601
+    nodePort: ""
+    labels: {}
+    annotations: {}
+    loadBalancerSourceRanges: []
+    httpPortName: http
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      ingress.kubernetes.io/auth-type: "basic"
+      ingress.kubernetes.io/auth-secret: "admin-authsecret"
+    hosts:
+      - "mathapi-kibana.danielpopov.com"
+    tls: []
+
+postgresql-backup:
+  enabled: false
+
+elasticsearch:
+  # Permit co-located instances for solitary minikube virtual machines.
+  antiAffinity: "soft"
+
+  # Shrink default JVM heap.
+  esJavaOpts: "-Xmx128m -Xms128m"
+
+  # Allocate smaller chunks of memory per pod.
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512M"
+    limits:
+      cpu: "1000m"
+      memory: "512M"
+
+  # Request smaller persistent volumes.
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "microk8s-hostpath"
+    resources:
+      requests:
+        storage: 200M
+
+logstash:
+  extraPorts:
+    - name: json
+      containerPort: 5959
+  persistence:
+    enabled: true
+
+  logstashConfig:
+    logstash.yml: |
+      http.host: 0.0.0.0
+      xpack.monitoring.enabled: false
+  logstashPipeline:
+    uptime.conf: |
+      input { tcp { codec => json port => 5959 } }
+      filter {
+        grok {
+          match => { "message" => "%{HOSTNAME:remote_ip}.*\[%{HTTPDATE:date}\] \"%{WORD:request_method} %{DATA:request_path} HTTP/%{NUMBER:http_version}\" %{NUMBER:response_code} %{NUMBER:response_length} \"%{DATA:request_referer}\" \"%{DATA:user_agent}\"" }
+        }
+      }
+      output { elasticsearch { hosts => ["http://elasticsearch-master:9200"] } }

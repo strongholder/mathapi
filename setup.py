@@ -8,7 +8,13 @@ setup(
     include_package_data=True,
     install_requires=[
         "flask",
+        "flask-RESTful",
+        "flask-expects-json",
+        "prometheus-flask-exporter",
         "SQLAlchemy",
         "alembic",
+        "gunicorn",
+        "python3-logstash",
+        "python-json-logger",
     ],
 )
