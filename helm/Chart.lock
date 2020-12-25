@@ -1,7 +1,7 @@
 dependencies:
-- name: redis-ha
-  repository: https://charts.helm.sh/stable
-  version: 3.11.4
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.2.4
 - name: postgresql
   repository: https://charts.helm.sh/stable
   version: 8.6.4
@@ -17,5 +17,11 @@ dependencies:
 - name: kibana
   repository: https://helm.elastic.co
   version: 7.10.1
-digest: sha256:1fe6ecf4f4708f5397c0a9197dbae481df243073974bff159af0804f8590afaa
-generated: "2020-12-23T16:42:58.63642316+02:00"
+- name: kube-prometheus-stack
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 12.8.1
+- name: sentry
+  repository: https://sentry-kubernetes.github.io/charts
+  version: 8.1.0
+digest: sha256:5fd2008f0537abb73aca984c7f394ec32b97f12bb80babbaa51dd5fb8685fabe
+generated: "2020-12-25T17:52:33.071083244+02:00"

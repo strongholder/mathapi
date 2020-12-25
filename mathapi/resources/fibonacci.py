@@ -21,7 +21,7 @@ parser = reqparse.RequestParser()
 parser.add_argument("number", type=number_integer, required=True)
 
 
-class Factorial(Resource):
+class Fibonacci(Resource):
     def post(self):
         args = parser.parse_args()
         return {"result": nth_fibonacci(args["number"])}

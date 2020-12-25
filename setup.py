@@ -16,5 +16,7 @@ setup(
         "gunicorn",
         "python3-logstash",
         "python-json-logger",
+        "sentry-sdk",
+        "blinker",
     ],
 )

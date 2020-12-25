@@ -111,8 +111,14 @@ autoscaling:
 
 redis:
   enabled: true
+  usePassword: false
+  cluster:
+    enabled: false
 
 postgresql:
+  enabled: true
+
+monitoring:
   enabled: true
 
 kibana:
@@ -184,3 +190,79 @@ logstash:
         }
       }
       output { elasticsearch { hosts => ["http://elasticsearch-master:9200"] } }
+
+kube-prometheus-stack:
+  grafana:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: traefik
+      hosts:
+        - "mathapi-monitoring.danielpopov.com"
+      labels: {}
+      path: /
+      tls: []
+
+  prometheus:
+    prometheusSpec:
+      additionalScrapeConfigs:
+       - job_name: scrape-mathapi
+         scrape_interval: 3s
+         static_configs:
+           - targets: ['mathapi-python:80']
+        
+sentry:
+  enabled: true
+  sentry:
+    worker:
+      replicas: 2
+  nginx:
+    enabled: false
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      #kubernetes.io/ingress.class: nginx
+      #nginx.ingress.kubernetes.io/use-regex: "true"
+    hostname: mathapi-sentry.danielpopov.com
+  redis:
+    enabled: false
+  externalRedis:
+    host: mathapi-redis-master
+    port: 6379
+  clickhouse:
+    enabled: true
+    replicaCount: 1
+    clickhouse:
+      imageVersion: "20.8.9.6"
+      replicaCount: 1
+      configmap:
+        remote_servers:
+          internal_replication: false
+      persistentVolumeClaim:
+        enabled: true
+        dataPersistentVolume:
+          enabled: true
+          accessModes:
+          - "ReadWriteOnce"
+          storage: "2Gi"
+  kafka:
+    enabled: true
+    replicaCount: 1
+    allowPlaintextListener: true
+    defaultReplicationFactor: 1
+    offsetsTopicReplicationFactor: 1
+    transactionStateLogReplicationFactor: 1
+    transactionStateLogMinIsr: 1
+    # 50 MB
+    maxMessageBytes: "50000000"
+    # 50 MB
+    socketRequestMaxBytes: "50000000"
+
+    service:
+      port: 9092
+  rabbitmq:
+    enabled: true
+    replicaCount: 1
+ 
+
