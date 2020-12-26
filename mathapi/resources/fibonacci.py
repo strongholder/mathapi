@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 
 from mathapi.services.fibonacci import nth_fibonacci
 
-MAX_NUMBER = 10 ** 5
+MAX_NUMBER = 50_000
 
 
 def number_integer(number):
