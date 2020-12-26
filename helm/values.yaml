@@ -210,6 +210,9 @@ kube-prometheus-stack:
          scrape_interval: 3s
          static_configs:
            - targets: ['mathapi-python:80']
+         basic_auth:
+           username: mathapi
+           password: mathapi123
         
 sentry:
   enabled: true

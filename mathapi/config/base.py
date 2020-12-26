@@ -1,4 +1,5 @@
 import importlib
+import os
 
 
 class EnvironmentError(Exception):
@@ -9,6 +10,12 @@ class Config:
     DEBUG = False
     TESTING = False
     DATABASE_URI = "sqlite:///:memory:"
+    API_USER = "mathapi"
+    API_PASSWORD = os.getenv(
+        "MATHAPI_PASSWORD",
+        "pbkdf2:sha256:150000$vpf8o9kq$961dcfbd582de375f85126cf3686ba61b9add54d18374a0eb38ac359085cff96",
+    )
+    SENTRY_DSN = "http://82b2524c7dfe4a8eafb2a7fafa2d1e84@mathapi-sentry-relay:3000/2"
 
 
 def load(app):
