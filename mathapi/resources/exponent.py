@@ -1,10 +1,11 @@
 from flask_restful import reqparse
 
 from mathapi.resources.api_resource import ApiResource
+from mathapi.services import requests
 from mathapi.services.exponent import power
 
-MAX_BASE = 10 ** 12
-MAX_EXPONENT = 10 ** 4
+MAX_BASE = 10e12
+MAX_EXPONENT = 10e4
 
 
 def base_integer(base):
@@ -39,4 +40,5 @@ parser.add_argument("exponent", type=exponent_integer, required=True)
 class Exponent(ApiResource):
     def post(self):
         args = parser.parse_args()
+        requests.save("exp", args["base"], args["exponent"])
         return {"result": power(args["base"], args["exponent"])}

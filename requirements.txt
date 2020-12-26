@@ -1,9 +1,11 @@
-alembic==1.4.3; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
+alembic==1.4.3; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.4.0"
 aniso8601==8.1.0
 blinker==1.4
 certifi==2020.12.5
 click==7.1.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
+flask-migrate==2.5.3
 flask-restful==0.3.8
+flask-sqlalchemy==2.4.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
 flask==1.1.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 gunicorn==20.0.4; python_version >= "3.4"
 itsdangerous==1.1.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.4.0"

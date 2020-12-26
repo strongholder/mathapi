@@ -7,9 +7,11 @@ class EnvironmentError(Exception):
 
 
 class Config:
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     DEBUG = False
     TESTING = False
-    DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     API_USER = "mathapi"
     API_PASSWORD = os.getenv(
         "MATHAPI_PASSWORD",
