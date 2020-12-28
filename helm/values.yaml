@@ -74,7 +74,14 @@ command: []
 extraArgs: {}
 
 ## Additional environmental variables to pass to container
-extraEnvs: {}
+extraEnvs:
+  - name: FLASK_ENV
+    value: "production"
+  - name: DATABASE_URI
+    valueFrom:
+      secretKeyRef:
+        name: mathapi-secrets
+        key: database_uri
 
 ## Additional volumeMounts to the main container.
 extraVolumeMounts: []

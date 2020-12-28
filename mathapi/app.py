@@ -8,7 +8,7 @@ from mathapi import config
 from mathapi.resources import api, api_metrics
 
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(compare_type=True)
 
 
 def create_app(test_config=None):
@@ -28,6 +28,7 @@ def create_app(test_config=None):
     def index():
         return "Hello, we will add a web client soon!"
 
+    @api_metrics.exclude_all_metrics()
     @app.route("/health_check")
     def health_check():
         return ("", 200)

@@ -6,7 +6,9 @@ from mathapi.resources.factorial import Factorial
 from mathapi.resources.fibonacci import Fibonacci
 from mathapi.services.auth import login_required
 
-api_metrics = RESTfulPrometheusMetrics.for_app_factory(metrics_decorator=login_required)
+api_metrics = RESTfulPrometheusMetrics.for_app_factory(
+    metrics_decorator=login_required, excluded_paths=["/metrics", "/health_check"]
+)
 
 api = Api(prefix="/api/v1")
 api.add_resource(Exponent, "/exponent")
