@@ -10,5 +10,6 @@ A simple microservice that provides the following functionality via RESTful API
 # Setup Helm
 ```
 helm dependency update ./helm
-helm install --create-namespace --namespace mathapi -f helm/values.yaml mathapi ./helm
+helm install --set postgresql.postgresqlPassword=pass --create-namespace --namespace mathapi -f helm/values.yaml -f helm/jenkins_values.yaml mathapi ./helm
+
 ```

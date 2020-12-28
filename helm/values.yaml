@@ -115,9 +115,6 @@ redis:
   cluster:
     enabled: false
 
-postgresql:
-  enabled: true
-
 monitoring:
   enabled: true
 
@@ -267,5 +264,32 @@ sentry:
   rabbitmq:
     enabled: true
     replicaCount: 1
+    
+postgresql:
+  enabled: true
+  metrics.enabled: true
+  postgresqlDatabase: mathapi-production
+
+  networkPolicy:
+    enabled: true
+
+    ## The Policy model to apply. When set to false, only pods with the correct
+    ## client label will have network access to the port PostgreSQL is listening
+    ## on. When true, PostgreSQL will accept connections from any source
+    ## (with the correct destination port).
+    ##
+    allowExternal: false
+
+    ## if explicitNamespacesSelector is missing or set to {}, only client Pods that are in the networkPolicy's namespace
+    ## and that match other criteria, the ones that have the good label, can reach the DB.
+    ## But sometimes, we want the DB to be accessible to clients from other namespaces, in this case, we can use this
+    ## LabelSelector to select these namespaces, note that the networkPolicy's namespace should also be explicitly added.
+    ##
+    explicitNamespacesSelector:
+      matchLabels:
+        app.kubernetes.io/instance: "mathapi"
+        app.kubernetes.io/name: "python"
+      # matchExpressions:
+        # - {key: role, operator: In, values: [frontend]}
  
 

@@ -14,8 +14,14 @@ spec:
       - name: mathapi-migrate
         image: localhost:32000/mathapi:latest
         command: ["flask", "db", "upgrade"]
-        envFrom:
-        - configMapRef:
-            name: mathapi-config
+        workingDir: /app/mathapi
+        env:
+          - name: FLASK_ENV
+            value: "production"
+          - name: DATABASE_URI
+            valueFrom:
+              secretKeyRef:
+                name: mathapi-secrets
+                key: database_uri
       restartPolicy: Never
   backoffLimit: 4

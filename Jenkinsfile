@@ -32,7 +32,7 @@ spec:
             withKubeConfig([credentialsId: 'jenkins-robot-kube', serverUrl: 'https://kubernetes.default']) {
               sh 'kubectl delete -f deploy/migrate-job.yaml || true' 
               sh 'kubectl apply -f deploy/migrate-job.yaml'
-
+              sh 'kubectl wait --for=condition=complete job/mathapi-migrate -n mathapi'
               sh 'kubectl rollout restart deployment/mathapi-python -n mathapi'
             }
         }
