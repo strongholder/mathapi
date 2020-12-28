@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mathapi-migrate
+  namespace: mathapi
+  labels:
+    name: mathapi
+    type: migrate
+spec:
+  ttlSecondsAfterFinished: 30
+  template:
+    spec:
+      containers:
+      - name: mathapi-migrate
+        image: localhost:32000/mathapi:latest
+        command: ["flask", "db", "upgrade"]
+        envFrom:
+        - configMapRef:
+            name: mathapi-config
+      restartPolicy: Never
+  backoffLimit: 4

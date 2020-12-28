@@ -23,5 +23,8 @@ dependencies:
 - name: sentry
   repository: https://sentry-kubernetes.github.io/charts
   version: 8.1.0
-digest: sha256:5fd2008f0537abb73aca984c7f394ec32b97f12bb80babbaa51dd5fb8685fabe
-generated: "2020-12-25T17:52:33.071083244+02:00"
+- name: jenkins
+  repository: https://charts.jenkins.io
+  version: 3.0.12
+digest: sha256:4ceffb2f4fd963150cec0eafb11c7b8a5f5e93d6db8753bb67c04d0e93a127fa
+generated: "2020-12-27T20:06:11.902817146+02:00"

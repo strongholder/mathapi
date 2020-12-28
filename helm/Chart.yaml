@@ -35,5 +35,9 @@ dependencies:
   version: ~8.1.0
   repository: https://sentry-kubernetes.github.io/charts
   condition: monitoring.enabled
+- name: jenkins
+  version: ~3.0.12
+  repository: https://charts.jenkins.io
+  condition: jenkins.enabled
 
 

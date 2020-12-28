@@ -2,7 +2,7 @@ global:
   deployment: blue
   pipeline: helm
 
-replicaCount: 1
+replicaCount: 4
 revisionHistoryLimit: 0
 
 ## PodDisruptionBudget
