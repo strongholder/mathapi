@@ -17,7 +17,7 @@ class Config:
         "MATHAPI_PASSWORD",
         "pbkdf2:sha256:150000$vpf8o9kq$961dcfbd582de375f85126cf3686ba61b9add54d18374a0eb38ac359085cff96",
     )
-    SENTRY_DSN = "http://82b2524c7dfe4a8eafb2a7fafa2d1e84@mathapi-sentry-relay:3000/2"
+    SENTRY_DSN = "http://4bbed19ccdae497e9dcdd62d53f9b2c6@mathapi-sentry-relay:3000/2"
 
 
 def load(app):
