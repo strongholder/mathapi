@@ -1,6 +1,6 @@
 import math
 
-from mathapi.services.exponent import power
+from mathapi.services.exponent import ZeroDivisionError, power
 
 
 def test_positive_exponents():
@@ -26,9 +26,9 @@ def test_negative_exponent():
             assert power(b, e) == 1 / power(b, -e)
 
     try:
-        0 ** -1
-        raise AssertionError("0.0 cannot be raised to a negative power")
-    except Exception:
+        power(0, -1)
+        raise AssertionError("0 cannot be raised to a negative power")
+    except ZeroDivisionError:
         pass
 
 
