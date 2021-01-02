@@ -1,3 +1,7 @@
+"""
+Compute the fibonacci sequence number for a given integer position
+"""
+
 from flask_restful import reqparse
 
 from mathapi.resources.api_resource import ApiResource
@@ -12,6 +16,9 @@ def number_integer(number):
         number = int(number)
     except ValueError:
         raise ValueError("The number must be an integer number")
+
+    if number < 0:
+        raise ValueError("The number must be a non-negative integer")
 
     if number > MAX_NUMBER:
         raise ValueError("The number is too large")

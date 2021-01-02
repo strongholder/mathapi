@@ -13,6 +13,9 @@ migrate = Migrate(compare_type=True)
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    if test_config:
+        app.env = "testing"
+
     config.load(app)
 
     sentry_sdk.init(

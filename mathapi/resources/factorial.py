@@ -1,3 +1,7 @@
+"""
+Compute the factorial for a given integer
+"""
+
 from flask_restful import reqparse
 
 from mathapi.resources.api_resource import ApiResource
@@ -12,6 +16,9 @@ def number_integer(number):
         number = int(number)
     except ValueError:
         raise ValueError("The number must be an integer number")
+
+    if number < 0:
+        raise ValueError("Factorial not defined for negative values")
 
     if number > MAX_NUMBER:
         raise ValueError("The number is too large")

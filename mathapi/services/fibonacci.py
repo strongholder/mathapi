@@ -8,6 +8,8 @@ class InvalidInputError(Exception):
 @functools.lru_cache(1000)
 def nth_fibonacci(n):
     """
+    Compute the fibonacci sequence number for `n`th integer position
+
     see: https://stackoverflow.com/a/23462371
     """
     if n < 0:
