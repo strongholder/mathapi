@@ -26,7 +26,7 @@ spec:
     stage('Build') {
       steps {
         container('kaniko') {
-            sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --whitelist-var-run --destination=registry.container-registry:5000/mathapi:latest'
+            sh '/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --whitelist-var-run --destination=registry.container-registry:5000/mathapi:latest'
         }
       }
     }
