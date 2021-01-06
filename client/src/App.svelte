@@ -14,7 +14,7 @@
 	let errors = {};
 
 	function parse(json_string) {
-		return JSON.parse(json_string.replace(/(?<!")(\b\d+\b)(?!")/g, "\"$1\""));
+		return JSON.parse(json_string.replace(/(["']?)(\d+)(["']?)/g, "\"$2\""));
 	}
 
 	async function computeExponent(e) {

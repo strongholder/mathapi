@@ -31,6 +31,10 @@
     min-height: 225px;
   }
 
+  input {
+    max-width: 100%;
+  }
+
   .loading {
     width: 100%;
     text-align: center;
