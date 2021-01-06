@@ -2,6 +2,9 @@ FROM python:3.8-slim-buster
 
 ENV APP_HOME=/app
 
+RUN apt-get update && apt-get install -y supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 COPY install-nginx-debian.sh /
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -27,4 +30,4 @@ STOPSIGNAL SIGQUIT
 
 USER mathapi
 WORKDIR $APP_HOME
-CMD /app/entrypoint.sh
+CMD ["/usr/bin/supervisord"]
