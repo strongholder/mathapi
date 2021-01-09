@@ -82,6 +82,11 @@ extraEnvs:
       secretKeyRef:
         name: mathapi-secrets
         key: database_uri
+  - name: SMTP_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: mathapi-secrets
+        key: smtp_password
 
 ## Additional volumeMounts to the main container.
 extraVolumeMounts: []

@@ -1,5 +1,6 @@
 import base64
 import unittest
+from unittest.mock import Mock, patch
 
 from mathapi.app import create_app
 from mathapi.models import Request
@@ -36,3 +37,28 @@ class TestExponentResource(unittest.TestCase):
             assert Request.query.filter_by(operation="fib", arg1=10, arg2=None).first() is not None
             assert response.status_code == 200
             assert response.json == {"result": 55}
+
+    @patch("flask_mail.Message")
+    @patch("mathapi.app.mail")
+    def test_fibonacci_async(self, mail, message):
+        with db_test(self.app):
+            message_object = Mock()
+            message.return_value = message_object
+
+            response = self.client.post(
+                "/api/v1/fibonacci_async", json={"number": 10, "email": "test@example.com"}, headers=self._headers
+            )
+            request = Request.query.filter_by(operation="fib", arg1=10, arg2=None).first()
+
+            message.assert_called_with(
+                subject="Fib(10) result",
+                body="Please find your result as a file attached to this messages.",
+                recipients=["test@example.com"],
+            )
+            message_object.attach.assert_called_with("result.txt", "text/plain", "55")
+            mail.send.assert_called_with(message_object)
+
+            assert request is not None
+            assert request.completed is True
+            assert response.status_code == 201
+            assert response.json == ""
