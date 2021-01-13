@@ -9,7 +9,7 @@ from flask_restful import reqparse
 from mathapi.resources.api_resource import ApiResource
 from mathapi.services import requests
 
-MAX_NUMBER = 10e9
+MAX_NUMBER = 10e8
 
 
 def number_integer(number):

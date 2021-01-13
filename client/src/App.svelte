@@ -1,6 +1,7 @@
 <script>
 	import Exponent from './Exponent.svelte';
 	import Fibonacci from './Fibonacci.svelte';
+	import FibonacciAsync from './FibonacciAsync.svelte';
 	import Factorial from './Factorial.svelte';
 	import Errors from './Errors.svelte';
 
@@ -8,9 +9,10 @@
 	const exponent_uri = `${api_uri}/exponent`;
 	const fibonacci_uri = `${api_uri}/fibonacci`;
 	const factorial_uri = `${api_uri}/factorial`;
+	const fibonacci_async_uri = `${api_uri}/fibonacci_async`;
 
 	let exponent_result, fibonacci_result, factorial_result;
-	let exponent_loading, fibonacci_loading, factorial_loading;
+	let exponent_loading, fibonacci_loading, factorial_loading, fibonacci_async_loading;
 	let errors = {};
 
 	function parse(json_string) {
@@ -53,6 +55,23 @@
 		}
 	};
 
+	async function computeFibonacciAsync(e) {
+		fibonacci_async_loading = true;
+		const res = await fetch(fibonacci_async_uri, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(e.detail)
+		})
+		
+		const json = parse(await res.text());
+		fibonacci_async_loading = false;
+		if(res.ok) {
+			errors = {};
+		} else {
+			errors = json.message;
+		}
+	};
+
 	async function computeFactorial(e) {
 		factorial_loading = true;
 		const res = await fetch(factorial_uri, {
@@ -78,6 +97,7 @@
 	<Exponent on:value="{computeExponent}" bind:result={exponent_result} bind:loading="{exponent_loading}" />
 	<Fibonacci on:value="{computeFibonacci}" bind:result={fibonacci_result} bind:loading="{fibonacci_loading}"  />
 	<Factorial on:value="{computeFactorial}" bind:result={factorial_result} bind:loading="{factorial_loading}" />
+	<FibonacciAsync on:value="{computeFibonacciAsync}" bind:loading="{fibonacci_loading}" />
 </main>
 
 <style>

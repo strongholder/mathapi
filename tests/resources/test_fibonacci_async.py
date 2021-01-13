@@ -64,7 +64,7 @@ class TestFibonacciAsyncResource(unittest.TestCase):
     @patch("mathapi.celery.tasks.compute_fibonacci")
     @patch("mathapi.services.requests.save")
     def test_large_number(self, save, compute_fibonacci_task):
-        response = self.client().post("/api/v1/fibonacci_async", json={"number": 10e10})
+        response = self.client().post("/api/v1/fibonacci_async", json={"number": 10e9})
 
         save.assert_not_called()
         compute_fibonacci_task.apply_async.assert_not_called()
