@@ -17,10 +17,10 @@ celery = Celery()
 mail = Mail()
 
 
-def create_app(test_config=None):
+def create_app(environment=None):
     app = Flask(__name__)
-    if test_config:
-        app.env = "testing"
+    if environment:
+        app.env = environment
 
     config.load(app)
 

@@ -6,7 +6,7 @@ from mathapi.app import create_app
 
 class TestFibonacciAsyncResource(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(test_config=True)
+        self.app = create_app(environment="testing")
         self.client = self.app.test_client
         self.email = "test@example.com"
 

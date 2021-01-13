@@ -7,7 +7,7 @@ from mathapi.testing import db_test
 
 class TestRequest(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(test_config=True)
+        self.app = create_app(environment="testing")
 
     def test_complete(self):
         with db_test(self.app):

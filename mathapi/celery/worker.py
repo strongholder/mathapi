@@ -1,3 +1,5 @@
+import os
+
 from celery import Celery
 
 from mathapi.app import create_app

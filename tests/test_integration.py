@@ -9,7 +9,7 @@ from mathapi.testing import db_test
 
 class TestExponentResource(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(test_config=True)
+        self.app = create_app(environment="testing")
 
         self._headers = {"Authorization": f"Basic {base64.b64encode(b'test:password').decode('utf-8')}"}
         self.client = self.app.test_client()

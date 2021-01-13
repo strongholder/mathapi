@@ -7,7 +7,7 @@ from mathapi.services.fibonacci import nth_fibonacci
 
 @celery.task()
 def compute_fibonacci(request_id):
-    request = Request.query.filter_by(operation="fib", asynchronous=True).first()
+    request = Request.query.filter_by(id=request_id, operation="fib", asynchronous=True).first()
     if not request:
         return
 
